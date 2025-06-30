@@ -1,7 +1,7 @@
 body {
     background: #111;
-    color: #f5f6fa;
-    font-family: 'Inter', 'Pretendard', 'Segoe UI', Arial, sans-serif;
+    color: #fff;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace';
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -11,99 +11,103 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120px;
+    height: 100px;
     background: transparent;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 }
 
 .main-title {
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     font-weight: 900;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
     color: #fff;
     margin: 0;
-    padding: 0 24px;
-    border-radius: 0;
+    padding: 0 12px;
     background: none;
+    border-radius: 0;
     box-shadow: none;
+    border-bottom: 2px solid #fff;
+    font-family: inherit;
 }
 
 .sites-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 32px;
-    max-width: 1100px;
-    margin: 0 auto 40px auto;
-    padding: 0 16px;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto 32px auto;
+    padding: 0 12px;
 }
 
 .site-card {
-    background: linear-gradient(135deg, #181c20 80%, #232a34 100%);
-    border-radius: 18px;
-    box-shadow: 0 4px 32px 0 #00eaff22, 0 1.5px 0 #222 inset;
-    padding: 32px 24px 24px 24px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 0;
+    padding: 24px 18px 18px 18px;
     display: flex;
     flex-direction: column;
-    min-height: 220px;
-    transition: transform 0.18s, box-shadow 0.18s;
-    border: 1.5px solid #232a34;
+    min-height: 160px;
+    transition: background 0.15s, border-color 0.15s;
 }
 
 .site-card:hover {
-    transform: translateY(-6px) scale(1.025);
-    box-shadow: 0 8px 40px 0 #00eaff55, 0 1.5px 0 #222 inset;
-    border-color: #00eaff88;
+    background: #232323;
+    border-color: #fff;
 }
 
 .site-card h2 {
-    margin: 0 0 12px 0;
-    font-size: 1.35rem;
+    margin: 0 0 10px 0;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #00eaff;
-    letter-spacing: 0.04em;
-    text-shadow: 0 0 8px #00eaff55;
+    color: #fff;
+    letter-spacing: 0.03em;
+    font-family: inherit;
+    border-left: 3px solid #fff;
+    padding-left: 10px;
 }
 
 .site-card p {
-    margin: 0 0 18px 0;
-    color: #e0e6ed;
-    font-size: 1.05rem;
+    margin: 0 0 14px 0;
+    color: #eee;
+    font-size: 1rem;
     flex-grow: 1;
+    font-family: inherit;
 }
 
 .site-card a {
     display: inline-block;
-    padding: 10px 0;
+    padding: 0;
     background: none;
     color: #fff;
     font-weight: 700;
     border: none;
-    border-bottom: 2px solid #00eaff;
+    border-bottom: 1px dashed #fff;
     border-radius: 0;
     text-decoration: none;
-    font-size: 1.08rem;
-    letter-spacing: 0.04em;
-    transition: color 0.18s, border-color 0.18s, text-shadow 0.18s;
+    font-size: 1.01rem;
+    letter-spacing: 0.02em;
+    transition: color 0.15s, border-color 0.15s;
     text-align: left;
     box-shadow: none;
+    font-family: inherit;
 }
 
 .site-card a:hover {
-    color: #00eaff;
+    color: #111;
+    background: #fff;
     border-color: #fff;
-    text-shadow: 0 0 8px #00eaff99;
 }
 
 @media (max-width: 600px) {
     .main-title {
-        font-size: 2.1rem;
-        padding: 0 10px;
+        font-size: 1.5rem;
+        padding: 0 4px;
     }
     .sites-container {
         grid-template-columns: 1fr;
-        gap: 18px;
+        gap: 12px;
     }
     .site-card {
-        padding: 20px 12px 16px 12px;
+        padding: 14px 6px 10px 6px;
     }
 } 
