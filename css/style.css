@@ -21,15 +21,11 @@ header {
     font-weight: 900;
     letter-spacing: 0.15em;
     color: #fff;
-    text-shadow:
-        0 0 8px #00eaff,
-        0 0 24px #00eaff,
-        0 0 40px #00eaff44;
     margin: 0;
     padding: 0 24px;
-    border-radius: 12px;
-    background: rgba(24,24,24,0.7);
-    box-shadow: 0 2px 24px 0 #00eaff22;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
 }
 
 .sites-container {

@@ -13,16 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
 
     const sitesContainer = document.getElementById('sites-container');
-    const newIssueLink = document.getElementById('new-issue-link');
 
     if (!GITHUB_OWNER || !GITHUB_REPO) {
         sitesContainer.innerHTML = `<p>Error: GITHUB_OWNER와 GITHUB_REPO를 설정해주세요.</p>`;
         return;
     }
     
-    const issueTemplateURL = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/issues/new?title=사이트명&body=사이트+소개:+%0A%0A사이트+주소:+`;
-    newIssueLink.href = issueTemplateURL;
-
     const apiURL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?state=open`;
 
     async function fetchSites() {
