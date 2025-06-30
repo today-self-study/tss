@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.innerHTML = `
                     <h2>${escapeHTML(cardTitle)}</h2>
                     <p>${escapeHTML(description)}</p>
-                    <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">사이트 방문하기</a>
+                    <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">visit</a>
                 `;
                 sitesContainer.appendChild(card);
             }
