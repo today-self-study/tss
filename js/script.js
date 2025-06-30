@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // GitHub 레포지토리 정보를 설정합니다.
     // 이 프로젝트가 업로드될 GitHub 레포지토리의 소유자(owner)와 이름(repo)을 입력하세요.
     const GITHUB_OWNER = 'today-self-study';
-    const GITHUB_REPO = 'cursor-llm-study'; 
+    const GITHUB_REPO = 'tss'; 
 
     // -------------------------------------------------------------------------
     // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 설정 영역 ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
