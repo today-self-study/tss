@@ -50,15 +50,28 @@ document.addEventListener('DOMContentLoaded', () => {
         issues.forEach(issue => {
             if (issue.pull_request) return; // Pull Request는 목록에서 제외
 
-            const siteName = issue.title;
             const { description, url } = parseIssueBody(issue.body);
+            let repoName = '';
+            if (url) {
+                // 주소에서 repo 이름 추출 (예: https://today-self-study.github.io/Sydra/)
+                try {
+                    const u = new URL(url);
+                    // pathname: /Sydra/ 또는 /repo/
+                    const pathParts = u.pathname.split('/').filter(Boolean);
+                    repoName = pathParts.length > 0 ? pathParts[0] : '';
+                } catch (e) {
+                    repoName = '';
+                }
+            }
+            // repoName이 없으면 fallback으로 이슈 title 사용
+            const cardTitle = repoName || issue.title;
 
-            if (siteName && description && url) {
+            if (cardTitle && description && url) {
                 const card = document.createElement('div');
                 card.className = 'site-card';
 
                 card.innerHTML = `
-                    <h2>${escapeHTML(siteName)}</h2>
+                    <h2>${escapeHTML(cardTitle)}</h2>
                     <p>${escapeHTML(description)}</p>
                     <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">사이트 방문하기</a>
                 `;
