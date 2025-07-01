@@ -49,28 +49,46 @@ document.addEventListener('DOMContentLoaded', () => {
             const { description, url, developers } = parseIssueBody(issue.body);
             const cardTitle = issue.title;
 
-            // 개발자 정보가 없으면 이슈 작성자 사용
-            let devList = developers && developers.length > 0 ? developers : [issue.user.login];
+            // 개발자 정보가 없으면 아무것도 표시하지 않음
+            let devList = developers && developers.length > 0 ? developers : [];
 
             if (cardTitle && description && url) {
                 const card = document.createElement('div');
                 card.className = 'site-card';
 
-                // 프로필 이미지 HTML 생성
-                const devProfiles = devList.map(dev => `
-                    <a href="https://github.com/${dev}" target="_blank" class="github-profile-link" title="@${dev}">
-                        <img src="https://github.com/${dev}.png" alt="${dev}" class="github-profile-img" onerror="this.onerror=null;this.src='https://avatars.githubusercontent.com/u/583231?v=4';">
-                    </a>
-                `).join('');
+                // 카드 상단(헤더)
+                const header = document.createElement('div');
+                header.className = 'site-card-header';
+                header.innerHTML = `<span class="site-title">${cardTitle}</span>`;
+                card.appendChild(header);
 
-                card.innerHTML = `
-                    <div class="site-card-header">
-                        ${devProfiles}
-                    </div>
-                    <h2>${escapeHTML(cardTitle)}</h2>
-                    <p>${escapeHTML(description)}</p>
-                    <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">visit</a>
-                `;
+                // 카드 본문(설명)
+                const desc = document.createElement('div');
+                desc.className = 'site-card-desc';
+                desc.textContent = description;
+                card.appendChild(desc);
+
+                // visit 버튼(오른쪽)
+                const visitBtn = document.createElement('a');
+                visitBtn.className = 'site-visit-btn';
+                visitBtn.href = url;
+                visitBtn.target = '_blank';
+                visitBtn.rel = 'noopener noreferrer';
+                visitBtn.textContent = 'visit →';
+                card.appendChild(visitBtn);
+
+                // contributor 정보(왼쪽 하단, 작게)
+                if (devList.length > 0) {
+                    const devBox = document.createElement('div');
+                    devBox.className = 'site-contributors';
+                    devBox.innerHTML = devList.map(dev => `
+                        <a class="github-profile-link" href="https://github.com/${dev.replace('@','')}" target="_blank" rel="noopener noreferrer">
+                            <img class="github-profile-img" src="https://github.com/${dev.replace('@','')}.png" alt="${dev}" title="${dev}" />
+                        </a>
+                    `).join('');
+                    card.appendChild(devBox);
+                }
+
                 sitesContainer.appendChild(card);
             }
         });
@@ -88,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 .split(/[\s,]+/)
                 .map(s => s.trim())
                 .filter(s => s.startsWith('@'))
-                .map(s => s.replace(/^@/, ''))
                 .filter(Boolean);
         }
 

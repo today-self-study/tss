@@ -40,19 +40,22 @@ header {
 }
 
 .site-card {
-    background: #181818;
-    border: 1px solid #333;
-    border-radius: 0;
-    padding: 24px 18px 18px 18px;
-    display: flex;
-    flex-direction: column;
-    min-height: 160px;
-    transition: background 0.15s, border-color 0.15s;
+    position: relative;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 24px 24px 40px 24px;
+    margin-bottom: 24px;
+    transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+    border: 1px solid #eaeaea;
+    min-height: 180px;
+    overflow: visible;
 }
 
 .site-card:hover {
-    background: #232323;
-    border-color: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+    border: 1.5px solid #bdbdbd;
+    background: #f3f4f6;
 }
 
 .site-card h2 {
@@ -86,7 +89,7 @@ header {
     text-decoration: none;
     font-size: 1.01rem;
     letter-spacing: 0.02em;
-    transition: color 0.15s, border-color 0.15s;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
     text-align: left;
     box-shadow: none;
     font-family: inherit;
@@ -94,32 +97,68 @@ header {
 
 .site-card a:hover {
     color: #111;
-    background: #fff;
+    background: none;
     border-color: #fff;
 }
 
 .site-card-header {
+    font-size: 1.2rem;
+    font-weight: 600;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.site-title {
+    flex: 1;
+}
+
+.site-visit-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: #222;
+    color: #fff;
+    border-radius: 8px;
+    padding: 6px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s;
+    z-index: 2;
+}
+
+.site-visit-btn:hover {
+    background: #444;
+}
+
+.site-contributors {
+    position: absolute;
+    left: 18px;
+    bottom: 12px;
+    display: flex;
+    gap: 4px;
+    z-index: 1;
 }
 
 .github-profile-link {
     display: inline-block;
-    margin-right: 6px;
+    margin: 0;
     vertical-align: middle;
 }
 
 .github-profile-img {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 1px solid #333;
+    border: 1px solid #bbb;
     object-fit: cover;
     background: #fff;
     transition: border-color 0.15s;
 }
 
 .github-profile-link:hover .github-profile-img {
-    border-color: #fff;
+    border-color: #222;
 }
 
 @media (max-width: 600px) {
