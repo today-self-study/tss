@@ -115,7 +115,7 @@ header {
 
 .site-visit-btn {
     position: absolute;
-    top: 24px;
+    bottom: 12px;
     right: 24px;
     background: #222;
     color: #fff;
@@ -172,5 +172,9 @@ header {
     }
     .site-card {
         padding: 14px 6px 10px 6px;
+    }
+    .site-visit-btn {
+        right: 10px;
+        bottom: 8px;
     }
 } 
