@@ -177,4 +177,64 @@ header {
         right: 10px;
         bottom: 8px;
     }
-} 
+}
+
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ 이스터에그: Octocat 점프 미니게임 ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+#easteregg-container {
+    display: none;
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+}
+.easteregg-game {
+    position: relative;
+    width: 400px;
+    height: 200px;
+    background: #181818;
+    border: 2px dashed #444;
+    border-radius: 12px;
+    margin: 0 auto 16px auto;
+    overflow: hidden;
+}
+.octocat {
+    position: absolute;
+    left: 40px;
+    top: 150px;
+    width: 48px;
+    height: 48px;
+    background: url('https://github.githubassets.com/images/icons/emoji/octocat.png') no-repeat center/cover, #fff;
+    border-radius: 50%;
+    border: 2px solid #222;
+    transition: top 0.2s;
+}
+.octocat.jump {
+    animation: octocat-jump 0.5s;
+    top: 60px !important;
+}
+@keyframes octocat-jump {
+    0% { top: 150px; }
+    50% { top: 60px; }
+    100% { top: 150px; }
+}
+.obstacle {
+    position: absolute;
+    left: 400px;
+    top: 160px;
+    width: 24px;
+    height: 40px;
+    background: #f36c3d;
+    border-radius: 6px;
+    border: 2px solid #fff;
+}
+@keyframes obstacle-move {
+    0% { left: 400px; }
+    100% { left: 0px; }
+}
+.easteregg-msg {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 이스터에그: Octocat 점프 미니게임 ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */ 

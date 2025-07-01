@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySites(issues);
         } catch (error) {
             console.error('Error fetching sites:', error);
-            sitesContainer.innerHTML = `<p>사이트 목록을 불러오는 중 오류가 발생했습니다. 자세한 내용은 콘솔을 확인해주세요.</p>`;
+            showEasterEggGame();
         }
     }
 
@@ -121,6 +121,62 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = document.createElement('p');
         p.appendChild(document.createTextNode(str));
         return p.innerHTML;
+    }
+
+    // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ 이스터에그: Octocat 점프 미니게임 ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    function showEasterEggGame() {
+        sitesContainer.style.display = 'none';
+        let gameContainer = document.getElementById('easteregg-container');
+        if (!gameContainer) {
+            gameContainer = document.createElement('div');
+            gameContainer.id = 'easteregg-container';
+            document.querySelector('main').appendChild(gameContainer);
+        }
+        gameContainer.innerHTML = `
+            <div class="easteregg-game">
+                <div class="octocat" id="octocat"></div>
+                <div class="obstacle" id="obstacle"></div>
+                <p class="easteregg-msg">깃허브 API 오류!<br>스페이스바로 Octocat을 점프시켜 장애물을 피해보세요 🐙</p>
+            </div>
+        `;
+        gameContainer.style.display = 'block';
+        startEasterEggGame();
+    }
+
+    function startEasterEggGame() {
+        const octocat = document.getElementById('octocat');
+        const obstacle = document.getElementById('obstacle');
+        let jumping = false;
+        let gameOver = false;
+        let obstacleLeft = 400;
+        obstacle.style.left = obstacleLeft + 'px';
+        obstacle.style.animation = 'obstacle-move 2s linear infinite';
+
+        function jump() {
+            if (jumping || gameOver) return;
+            jumping = true;
+            octocat.classList.add('jump');
+            setTimeout(() => {
+                octocat.classList.remove('jump');
+                jumping = false;
+            }, 500);
+        }
+
+        document.onkeydown = function(e) {
+            if (e.code === 'Space') jump();
+        };
+
+        // 충돌 체크
+        const gameInterval = setInterval(() => {
+            const octocatTop = parseInt(window.getComputedStyle(octocat).top);
+            const obstacleLeft = parseInt(window.getComputedStyle(obstacle).left);
+            if (obstacleLeft < 60 && obstacleLeft > 0 && octocatTop > 120) {
+                gameOver = true;
+                clearInterval(gameInterval);
+                document.onkeydown = null;
+                document.querySelector('.easteregg-msg').innerHTML = 'Game Over! 새로고침(F5)으로 재시도';
+            }
+        }, 20);
     }
 
     fetchSites();
