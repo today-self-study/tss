@@ -237,4 +237,48 @@ header {
     margin-top: 12px;
     line-height: 1.5;
 }
-/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 이스터에그: Octocat 점프 미니게임 ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */ 
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 이스터에그: Octocat 점프 미니게임 ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+/* ▼▼▼ 이스터에그: 커밋 그리드 미니게임 ▼▼▼ */
+#easteregg-container {
+    display: none;
+    width: 100%;
+    max-width: 300px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+}
+.easteregg-commit-game {
+    margin: 0 auto 16px auto;
+}
+.commit-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4px;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 12px auto;
+    background: #111;
+    border-radius: 8px;
+    border: 2px solid #444;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.commit-cell {
+    width: 32px;
+    height: 32px;
+    background: #222;
+    border-radius: 4px;
+    border: 1px solid #888;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+.commit-cell[data-filled="1"] {
+    background: #fff;
+}
+.easteregg-msg {
+    color: #bbb;
+    font-size: 1.05rem;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+/* ▲▲▲ 이스터에그: 커밋 그리드 미니게임 ▲▲▲ */ 

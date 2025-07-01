@@ -133,50 +133,41 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('main').appendChild(gameContainer);
         }
         gameContainer.innerHTML = `
-            <div class="easteregg-game">
-                <div class="octocat" id="octocat"></div>
-                <div class="obstacle" id="obstacle"></div>
-                <p class="easteregg-msg">깃허브 API 오류!<br>스페이스바로 Octocat을 점프시켜 장애물을 피해보세요 🐙</p>
+            <div class="easteregg-commit-game">
+                <div class="commit-grid" id="commitGrid"></div>
+                <p class="easteregg-msg">GitHub API 오류!<br>스페이스바 또는 셀 클릭으로 커밋을 남겨보세요.</p>
             </div>
         `;
         gameContainer.style.display = 'block';
-        startEasterEggGame();
+        startCommitGridGame();
     }
 
-    function startEasterEggGame() {
-        const octocat = document.getElementById('octocat');
-        const obstacle = document.getElementById('obstacle');
-        let jumping = false;
-        let gameOver = false;
-        let obstacleLeft = 400;
-        obstacle.style.left = obstacleLeft + 'px';
-        obstacle.style.animation = 'obstacle-move 2s linear infinite';
-
-        function jump() {
-            if (jumping || gameOver) return;
-            jumping = true;
-            octocat.classList.add('jump');
-            setTimeout(() => {
-                octocat.classList.remove('jump');
-                jumping = false;
-            }, 500);
+    function startCommitGridGame() {
+        const grid = document.getElementById('commitGrid');
+        const size = 5;
+        let cells = [];
+        grid.innerHTML = '';
+        for (let i = 0; i < size * size; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'commit-cell';
+            cell.dataset.filled = '0';
+            cell.addEventListener('click', () => toggleCell(cell));
+            grid.appendChild(cell);
+            cells.push(cell);
         }
-
+        function toggleCell(cell) {
+            const filled = cell.dataset.filled === '1';
+            cell.dataset.filled = filled ? '0' : '1';
+            cell.style.background = filled ? '#222' : '#fff';
+            cell.style.transition = 'background 0.2s';
+        }
+        function randomToggle() {
+            const idx = Math.floor(Math.random() * cells.length);
+            toggleCell(cells[idx]);
+        }
         document.onkeydown = function(e) {
-            if (e.code === 'Space') jump();
+            if (e.code === 'Space') randomToggle();
         };
-
-        // 충돌 체크
-        const gameInterval = setInterval(() => {
-            const octocatTop = parseInt(window.getComputedStyle(octocat).top);
-            const obstacleLeft = parseInt(window.getComputedStyle(obstacle).left);
-            if (obstacleLeft < 60 && obstacleLeft > 0 && octocatTop > 120) {
-                gameOver = true;
-                clearInterval(gameInterval);
-                document.onkeydown = null;
-                document.querySelector('.easteregg-msg').innerHTML = 'Game Over! 새로고침(F5)으로 재시도';
-            }
-        }, 20);
     }
 
     fetchSites();
