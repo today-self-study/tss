@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="easteregg-gravity-game">
                 <div class="gravity-ball" id="gravityBall"></div>
                 <div class="gravity-obstacle" id="gravityObstacle"></div>
-                <p class="easteregg-msg">네트워크의 미로에서 길을 잃었습니다.<br>스페이스바로 점프해서 탈출해보세요!</p>
+                <p class="easteregg-msg">404: Fun found. Press space to jump.</p>
             </div>
         `;
         gameContainer.style.display = 'block';
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (obstacleX < 60 && obstacleX > 20 && ballY > 110) {
                 isGameOver = true;
                 document.onkeydown = null;
-                document.querySelector('.easteregg-msg').innerHTML = '404의 평행우주, 중력을 이겨내지 못했습니다.<br>F5로 다시 도전하세요!';
+                document.querySelector('.easteregg-msg').innerHTML = 'Game Over! Press F5 to try again.';
                 return;
             }
             requestAnimationFrame(gameLoop);
