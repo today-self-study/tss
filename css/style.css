@@ -41,13 +41,13 @@ header {
 
 .site-card {
     position: relative;
-    background: #fff;
+    background: #181818;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     padding: 24px 24px 40px 24px;
     margin-bottom: 24px;
     transition: box-shadow 0.2s, border 0.2s, background 0.2s;
-    border: 1px solid #eaeaea;
+    border: 1px solid #23272f;
     min-height: 180px;
     overflow: visible;
 }
@@ -55,7 +55,7 @@ header {
 .site-card:hover {
     box-shadow: 0 6px 20px rgba(0,0,0,0.13);
     border: 1.5px solid #bdbdbd;
-    background: #f3f4f6;
+    background: #23272f;
 }
 
 .site-card h2 {
