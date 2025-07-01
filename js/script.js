@@ -133,41 +133,67 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('main').appendChild(gameContainer);
         }
         gameContainer.innerHTML = `
-            <div class="easteregg-commit-game">
-                <div class="commit-grid" id="commitGrid"></div>
-                <p class="easteregg-msg">GitHub API 오류!<br>스페이스바 또는 셀 클릭으로 커밋을 남겨보세요.</p>
+            <div class="easteregg-gravity-game">
+                <div class="gravity-ball" id="gravityBall"></div>
+                <div class="gravity-obstacle" id="gravityObstacle"></div>
+                <p class="easteregg-msg">네트워크의 미로에서 길을 잃었습니다.<br>스페이스바로 점프해서 탈출해보세요!</p>
             </div>
         `;
         gameContainer.style.display = 'block';
-        startCommitGridGame();
+        startGravityGame();
     }
 
-    function startCommitGridGame() {
-        const grid = document.getElementById('commitGrid');
-        const size = 5;
-        let cells = [];
-        grid.innerHTML = '';
-        for (let i = 0; i < size * size; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'commit-cell';
-            cell.dataset.filled = '0';
-            cell.addEventListener('click', () => toggleCell(cell));
-            grid.appendChild(cell);
-            cells.push(cell);
+    function startGravityGame() {
+        const ball = document.getElementById('gravityBall');
+        const obstacle = document.getElementById('gravityObstacle');
+        const gameHeight = 180;
+        const ground = 140;
+        let ballY = ground;
+        let velocity = 0;
+        const gravity = 0.7;
+        const jumpPower = -11;
+        let isJumping = false;
+        let isGameOver = false;
+        let obstacleX = 320;
+        obstacle.style.left = obstacleX + 'px';
+
+        function jump() {
+            if (isJumping || isGameOver) return;
+            velocity = jumpPower;
+            isJumping = true;
         }
-        function toggleCell(cell) {
-            const filled = cell.dataset.filled === '1';
-            cell.dataset.filled = filled ? '0' : '1';
-            cell.style.background = filled ? '#222' : '#fff';
-            cell.style.transition = 'background 0.2s';
-        }
-        function randomToggle() {
-            const idx = Math.floor(Math.random() * cells.length);
-            toggleCell(cells[idx]);
-        }
+
         document.onkeydown = function(e) {
-            if (e.code === 'Space') randomToggle();
+            if (e.code === 'Space') jump();
         };
+        obstacle.style.display = 'block';
+
+        function gameLoop() {
+            if (isGameOver) return;
+            // 중력 적용
+            velocity += gravity;
+            ballY += velocity;
+            if (ballY > ground) {
+                ballY = ground;
+                velocity = 0;
+                isJumping = false;
+            }
+            if (ballY < 10) ballY = 10;
+            ball.style.top = ballY + 'px';
+            // 장애물 이동
+            obstacleX -= 4;
+            if (obstacleX < -30) obstacleX = 320 + Math.random() * 60;
+            obstacle.style.left = obstacleX + 'px';
+            // 충돌 체크
+            if (obstacleX < 60 && obstacleX > 20 && ballY > 110) {
+                isGameOver = true;
+                document.onkeydown = null;
+                document.querySelector('.easteregg-msg').innerHTML = '404의 평행우주, 중력을 이겨내지 못했습니다.<br>F5로 다시 도전하세요!';
+                return;
+            }
+            requestAnimationFrame(gameLoop);
+        }
+        requestAnimationFrame(gameLoop);
     }
 
     fetchSites();
