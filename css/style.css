@@ -42,12 +42,12 @@ header {
 .site-card {
     position: relative;
     background: #181818;
-    border-radius: 16px;
+    border-radius: 0px;
+    border: 2px solid #444;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     padding: 24px 24px 40px 24px;
     margin-bottom: 24px;
     transition: box-shadow 0.2s, border 0.2s, background 0.2s;
-    border: 1px solid #23272f;
     min-height: 180px;
     overflow: visible;
 }
