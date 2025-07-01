@@ -35,7 +35,7 @@ const GITHUB_REPO = 'YOUR_REPOSITORY_NAME';
 
 1.  웹페이지 상단의 '이곳' 링크를 클릭하여 새 이슈 생성 페이지로 이동합니다.
 2.  **Issue Title**: 사이트의 이름을 입력합니다.
-3.  **Issue Body**: 정해진 양식에 따라 사이트 소개와 주소를 입력합니다.
+3.  **Issue Body**: 정해진 양식에 따라 사이트 소개, 주소, 개발자 정보를 입력합니다.
 
     ```
     사이트 소개:
@@ -45,6 +45,10 @@ const GITHUB_REPO = 'YOUR_REPOSITORY_NAME';
     사이트 주소:
 
     https://example.com
+
+    개발자:
+
+    @githubid1 @githubid2
     ```
 
 4.  'Submit new issue' 버튼을 클릭하여 이슈를 등록합니다.

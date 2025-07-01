@@ -98,6 +98,30 @@ header {
     border-color: #fff;
 }
 
+.site-card-header {
+    margin-bottom: 10px;
+}
+
+.github-profile-link {
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.github-profile-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    object-fit: cover;
+    background: #fff;
+    transition: border-color 0.15s;
+}
+
+.github-profile-link:hover .github-profile-img {
+    border-color: #fff;
+}
+
 @media (max-width: 600px) {
     .main-title {
         font-size: 1.5rem;
