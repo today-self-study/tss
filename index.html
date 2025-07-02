@@ -11,6 +11,19 @@
     <header>
         <h1 class="main-title">tss</h1>
     </header>
+    <div class="filter-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="사이트 검색..." />
+        </div>
+        <div class="filter-box">
+            <select id="developerFilter">
+                <option value="">모든 개발자</option>
+            </select>
+        </div>
+        <div class="result-count">
+            <span id="resultCount">0개 사이트</span>
+        </div>
+    </div>
     <main>
         <div id="sites-container" class="sites-container">
             <!-- 사이트 목록이 여기에 동적으로 추가됩니다. -->

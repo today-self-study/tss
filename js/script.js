@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
 
     const sitesContainer = document.getElementById('sites-container');
+    const searchInput = document.getElementById('searchInput');
+    const developerFilter = document.getElementById('developerFilter');
+    const resultCount = document.getElementById('resultCount');
+    
+    let allIssues = [];
+    let allDevelopers = new Set();
 
     if (!GITHUB_OWNER || !GITHUB_REPO) {
         sitesContainer.innerHTML = `<p>Error: GITHUB_OWNER와 GITHUB_REPO를 설정해주세요.</p>`;
@@ -28,47 +34,63 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`GitHub API Error: ${response.status} ${response.statusText}`);
             }
             const issues = await response.json();
-            displaySites(issues);
+            allIssues = issues.filter(issue => !issue.pull_request);
+            
+            extractDevelopers();
+            populateDeveloperFilter();
+            displaySites(allIssues);
+            updateResultCount(allIssues.length);
+            
         } catch (error) {
             console.error('Error fetching sites:', error);
             showEasterEggGame();
         }
     }
 
+    function extractDevelopers() {
+        allDevelopers.clear();
+        allIssues.forEach(issue => {
+            const { developers } = parseIssueBody(issue.body);
+            developers.forEach(dev => allDevelopers.add(dev.replace('@', '')));
+        });
+    }
+
+    function populateDeveloperFilter() {
+        developerFilter.innerHTML = '<option value="">모든 개발자</option>';
+        [...allDevelopers].sort().forEach(dev => {
+            const option = document.createElement('option');
+            option.value = dev;
+            option.textContent = `@${dev}`;
+            developerFilter.appendChild(option);
+        });
+    }
+
     function displaySites(issues) {
         if (issues.length === 0) {
-            sitesContainer.innerHTML = '<p>등록된 사이트가 없습니다. 새 이슈를 등록하여 추가해주세요.</p>';
+            sitesContainer.innerHTML = '<p>조건에 맞는 사이트가 없습니다.</p>';
             return;
         }
 
         sitesContainer.innerHTML = '';
 
         issues.forEach(issue => {
-            if (issue.pull_request) return; // Pull Request는 목록에서 제외
-
             const { description, url, developers } = parseIssueBody(issue.body);
             const cardTitle = issue.title;
-
-            // 개발자 정보가 없으면 아무것도 표시하지 않음
-            let devList = developers && developers.length > 0 ? developers : [];
 
             if (cardTitle && description && url) {
                 const card = document.createElement('div');
                 card.className = 'site-card';
 
-                // 카드 상단(헤더)
                 const header = document.createElement('div');
                 header.className = 'site-card-header';
-                header.innerHTML = `<span class="site-title">${cardTitle}</span>`;
+                header.innerHTML = `<span class="site-title">${escapeHTML(cardTitle)}</span>`;
                 card.appendChild(header);
 
-                // 카드 본문(설명)
                 const desc = document.createElement('div');
                 desc.className = 'site-card-desc';
                 desc.textContent = description;
                 card.appendChild(desc);
 
-                // visit 버튼(오른쪽)
                 const visitBtn = document.createElement('a');
                 visitBtn.className = 'site-visit-btn';
                 visitBtn.href = url;
@@ -77,11 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 visitBtn.textContent = 'visit →';
                 card.appendChild(visitBtn);
 
-                // contributor 정보(왼쪽 하단, 작게)
-                if (devList.length > 0) {
+                if (developers.length > 0) {
                     const devBox = document.createElement('div');
                     devBox.className = 'site-contributors';
-                    devBox.innerHTML = devList.map(dev => `
+                    devBox.innerHTML = developers.map(dev => `
                         <a class="github-profile-link" href="https://github.com/${dev.replace('@','')}" target="_blank" rel="noopener noreferrer">
                             <img class="github-profile-img" src="https://github.com/${dev.replace('@','')}.png" alt="${dev}" title="${dev}" />
                         </a>
@@ -97,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function parseIssueBody(body) {
         const descriptionMatch = body.match(/사이트 소개:\s*([\s\S]*?)사이트 주소:/);
         const urlMatch = body.match(/사이트 주소:\s*(https?:\/\/[^\s]+)/);
-        // 개발자: @id1 @id2 ... (줄바꿈 포함)
         const devMatch = body.match(/개발자:\s*([@\w\-\s]+)/);
 
         let developers = [];
@@ -114,6 +134,33 @@ document.addEventListener('DOMContentLoaded', () => {
             url: urlMatch ? urlMatch[1].trim() : null,
             developers
         };
+    }
+
+    function filterSites() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedDeveloper = developerFilter.value;
+
+        const filteredIssues = allIssues.filter(issue => {
+            const { description, developers } = parseIssueBody(issue.body);
+            const title = issue.title.toLowerCase();
+            const desc = description.toLowerCase();
+
+            const matchesSearch = !searchTerm || 
+                title.includes(searchTerm) || 
+                desc.includes(searchTerm);
+
+            const matchesDeveloper = !selectedDeveloper || 
+                developers.some(dev => dev.replace('@', '') === selectedDeveloper);
+
+            return matchesSearch && matchesDeveloper;
+        });
+
+        displaySites(filteredIssues);
+        updateResultCount(filteredIssues.length);
+    }
+
+    function updateResultCount(count) {
+        resultCount.textContent = `${count}개 사이트`;
     }
 
     function escapeHTML(str) {
@@ -169,6 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.code === 'Space') randomToggle();
         };
     }
+
+    // 이벤트 리스너
+    searchInput.addEventListener('input', filterSites);
+    developerFilter.addEventListener('change', filterSites);
 
     fetchSites();
 }); 
