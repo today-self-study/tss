@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error fetching sites:', error);
-            showEasterEggGame();
+            sitesContainer.innerHTML = '<p>사이트 목록을 불러오는 중 오류가 발생했습니다.</p>';
         }
     }
 
@@ -171,51 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ 이스터에그: Octocat 점프 미니게임 ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-    function showEasterEggGame() {
-        sitesContainer.style.display = 'none';
-        let gameContainer = document.getElementById('easteregg-container');
-        if (!gameContainer) {
-            gameContainer = document.createElement('div');
-            gameContainer.id = 'easteregg-container';
-            document.querySelector('main').appendChild(gameContainer);
-        }
-        gameContainer.innerHTML = `
-            <div class="easteregg-commit-game">
-                <div class="commit-grid" id="commitGrid"></div>
-                <p class="easteregg-msg">404: Fun found. Press space or click a cell.</p>
-            </div>
-        `;
-        gameContainer.style.display = 'block';
-        startCommitGridGame();
-    }
 
-    function startCommitGridGame() {
-        const grid = document.getElementById('commitGrid');
-        const size = 5;
-        let cells = [];
-        grid.innerHTML = '';
-        for (let i = 0; i < size * size; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'commit-cell';
-            cell.dataset.filled = '0';
-            cell.addEventListener('click', () => toggleCell(cell));
-            grid.appendChild(cell);
-            cells.push(cell);
-        }
-        function toggleCell(cell) {
-            const filled = cell.dataset.filled === '1';
-            cell.dataset.filled = filled ? '0' : '1';
-            cell.style.background = filled ? '#222' : '#fff';
-            cell.style.transition = 'background 0.2s';
-        }
-        function randomToggle() {
-            const idx = Math.floor(Math.random() * cells.length);
-            toggleCell(cells[idx]);
-        }
-        document.onkeydown = function(e) {
-            if (e.code === 'Space') randomToggle();
-        };
-    }
 
     // 이벤트 리스너
     searchInput.addEventListener('input', filterSites);
